@@ -3,7 +3,8 @@ import os
 from os import path
 import sqlite3
 import hashlib
-#import db_stuff
+import db_stuff
+
 
 app = Flask(__name__)
 app.secret_key = 'some_secret'
@@ -31,6 +32,7 @@ def auth():
     if request.method == "GET":
         return redirect("/")
     try:
+        print "running try"
         username = request.form['username']
         print username
         password = request.form['password']
