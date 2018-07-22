@@ -45,7 +45,81 @@ def add_donor(fname, lname,username, password, email):
 
 #------------------------ ADMIN FXNS -------------------------------------------------------
 
-#def add_item(price, name, description, due_date):
- #   db = sqlite3.connect(DB)
- #   c = db.cursor()
+#Have not tested these yet, but should work...
+
+def add_item(price, name, description, due_date):
+    db = sqlite3.connect(DB)
+    c = db.cursor()
+    q = 'SELECT * FROM items WHERE name = ?'
+    c.execute(q,name)
+    if not check.fetchone():
+        c.execute('INSERT INTO items(price, name, description, due_date) VALUES (?,?,?,?)', (price, name, description, due_date))
+        print "success!"
+        db.commit()
+        db.close()
+        return True
+    else:
+        print "item (name) exists"
+        return False
+
+def edit_price(item_id, new_price):
+    db = sqlite3.connect(DB)
+    c = db.cursor()
+    test = 'SELECT * FROM items WHERE item_id = ?'
+    test_result = c.execute(test, item_id)
+    if not test_result.fetchone():
+        print "THIS ITEM DOESNT EXIST"
+        return False
+    else:
+        query = 'UPDATE items SET price =? WHERE item_id = ?'
+        c.execute(query, (new_price, item_id))
+        db.commit()
+        db.close()
+        return True
+
+def edit_name(item_id, new_name):
+    db = sqlite3.connect(DB)
+    c = db.cursor()
+    test = 'SELECT * FROM items WHERE item_id = ?'
+    test_result = c.execute(test, item_id)
+    if not test_result.fetchone():
+        print "THIS ITEM DOESNT EXIST"
+        return False
+    else:
+        query = 'UPDATE items SET name =? WHERE item_id = ?'
+        c.execute(query, (new_name, item_id))
+        db.commit()
+        db.close()
+        return True
+
+def edit_descr(item_id, new_descr):
+    db = sqlite3.connect(DB)
+    c = db.cursor()
+    test = 'SELECT * FROM items WHERE item_id = ?'
+    test_result = c.execute(test, item_id)
+    if not test_result.fetchone():
+        print "THIS ITEM DOESNT EXIST"
+        return False
+    else:
+        query = 'UPDATE items SET description =? WHERE item_id = ?'
+        c.execute(query, (new_descr, item_id))
+        db.commit()
+        db.close()
+        return True
+
+def edit_due_date(item_id, new_due_date):
+    db = sqlite3.connect(DB)
+    c = db.cursor()
+    test = 'SELECT * FROM items WHERE item_id = ?'
+    test_result = c.execute(test, item_id)
+    if not test_result.fetchone():
+        print "THIS ITEM DOESNT EXIST"
+        return False
+    else:
+        query = 'UPDATE items SET due_date =? WHERE item_id = ?'
+        c.execute(query, (new_due_date, item_id))
+        db.commit()
+        db.close()
+        return True
+    
 
