@@ -52,6 +52,33 @@ def auth():
         #flash("Login failed. Please try again.")
         return render_template("login.html")
 
+@app.route('/signup', methods=["GET", "POST"])
+def signup():
+    if "username" in session:
+        if session["account"] == "donor":
+            return redirect(url_for("home"))
+        else:
+            return render_template("login.html")
+    if request.method == "GET":
+        return render_template("login.html")
+    try:
+        fname = request.form["fname"]
+        lname = request.form["lname"]
+        username = request.form["username"]
+        password = request.form["password"]
+        email = request.form["email"]
+    except KeyError:
+        #flash('fill everything in please')
+        print 'key error'
+        return render_template("signup.html")
+    if db_stuff.add_donor(fname, lname, username, password, email):
+        flash("successfully added donor!")
+        return render_template("home.html")
+    else:
+#        flash("failed to add donor")
+        return render_template("login.html")
+
+
 @app.route('/home')
 def home():
     return render_template('home.html')
