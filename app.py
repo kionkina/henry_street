@@ -37,7 +37,7 @@ def auth():
         print username
         password = request.form['password']
         print password
-    
+
     except KeyError:
         #flash("please fill everything in")
         return render_template("login.html", error="please fill everything in")
@@ -52,6 +52,9 @@ def auth():
         #flash("Login failed. Please try again.")
         return render_template("login.html")
 
+@app.route('/home')
+def home():
+    return render_template('home.html')
 
 app.secret_key = os.urandom(32)
 if __name__ == '__main__':
