@@ -81,7 +81,7 @@ def signup():
 
 @app.route('/home')
 def home():
-    return render_template('home.html')
+    return render_template('home.html', item=[{'price':'$2.50', 'name':'emacs', 'id':7,'desc':'its worth that little'}, {'price':'$5.00', 'name':'atom', 'id':8,'desc':'its worth way more'}])
 
 app.secret_key = os.urandom(32)
 if __name__ == '__main__':
