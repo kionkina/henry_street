@@ -32,3 +32,6 @@ def add_donor(fname, lname,username, password, email):
         db.commit()
         db.close()
         return False
+
+#------------------------ ADMIN FXNS -------------------------------------------------------
+
