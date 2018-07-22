@@ -43,6 +43,41 @@ def add_donor(fname, lname,username, password, email):
         db.close()
         return False
 
+def get_user_id(username):
+    db = sqlite3.connect(DB)
+    c = db.cursor()
+    print username
+    query = 'SELECT user_id from donors WHERE username = ?' 
+    result = c.execute(query, (username,))
+    if result:
+        print "result"
+        print result
+        for tuple in result:
+            return tuple[0]
+    else:
+        print "no such username"
+        return 
+
+def list_of_transactions(username):
+    db = sqlite3.connect(DB)
+    c = db.cursor()
+    user_id = get_user_id(username)
+    print user_id
+    query = 'SELECT * FROM transactions WHERE user_id = ?' 
+    result = c.execute(query, (user_id,))
+    ret = []
+    for transaction in result:
+        if i == None:
+            return 
+        else:
+            trans = []
+            for i in transcation:
+                trans.append(i)
+            ret.append[trans]
+    return ret
+    
+print list_of_transactions('kionkina') 
+
 #------------------------ ADMIN FXNS -------------------------------------------------------
 
 #Have not tested these yet, but should work...
