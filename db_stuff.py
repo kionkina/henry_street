@@ -67,13 +67,13 @@ def list_of_transactions(username):
     result = c.execute(query, (user_id,))
     ret = []
     for transaction in result:
-        if i == None:
+        if transaction == None:
             return 
         else:
             trans = []
-            for i in transcation:
+            for i in transaction:
                 trans.append(i)
-            ret.append[trans]
+            ret.append(trans)
     return ret
     
 print list_of_transactions('kionkina') 
