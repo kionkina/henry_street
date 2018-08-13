@@ -11,17 +11,25 @@ import hashlib
 
 DB = "base.db"
 
+
+#returns True if user exists, False otherwise
 def auth(username, password):
-    print "running db auth"
+#    print "running db auth"
     db = sqlite3.connect(DB)
     c = db.cursor()
     pwd = hashlib.sha256(password).hexdigest()
     query = 'SELECT password FROM donors WHERE username = ? AND password = ?'
     result = c.execute(query, (username, pwd))
     ret = result.fetchone()
-    print ret
+#    print ret
     db.close()
-    return ret
+    if ret != None:
+        return True
+    else:
+        return False
+
+print auth('kionkina', 'karina')
+print auth('kionkina', 'karin')
                        
 def add_donor(fname, lname,username, password, email):
     print "running add_donor..."
@@ -29,7 +37,7 @@ def add_donor(fname, lname,username, password, email):
     c = db.cursor()
     query = 'SELECT * FROM donors WHERE username = ?'
     check = c.execute(query, (username,))
-    if not check.fetchone():
+    if check.fetchone() == None:
         c.execute(q, (1, 6))
         new_pass = hashlib.sha256(password).hexdigest()
         c.execute('INSERT INTO donors(fname, lname, username, password, email) VALUES (?,?,?,?,?)', (fname, lname, username, new_pass, email))
@@ -87,7 +95,7 @@ def add_item(price, name, description, due_date):
     c = db.cursor()
     q = 'SELECT * FROM items WHERE name = ?'
     c.execute(q,name)
-    if not check.fetchone():
+    if check.fetchone() == None:
         c.execute('INSERT INTO items(price, name, description, due_date) VALUES (?,?,?,?)', (price, name, description, due_date))
         print "success!"
         db.commit()
@@ -102,7 +110,7 @@ def edit_price(item_id, new_price):
     c = db.cursor()
     test = 'SELECT * FROM items WHERE item_id = ?'
     test_result = c.execute(test, item_id)
-    if not test_result.fetchone():
+    if test_result.fetchone() == None:
         print "THIS ITEM DOESNT EXIST"
         return False
     else:
@@ -117,7 +125,7 @@ def edit_name(item_id, new_name):
     c = db.cursor()
     test = 'SELECT * FROM items WHERE item_id = ?'
     test_result = c.execute(test, item_id)
-    if not test_result.fetchone():
+    if test_result.fetchone() == None:
         print "THIS ITEM DOESNT EXIST"
         return False
     else:
@@ -132,7 +140,7 @@ def edit_descr(item_id, new_descr):
     c = db.cursor()
     test = 'SELECT * FROM items WHERE item_id = ?'
     test_result = c.execute(test, item_id)
-    if not test_result.fetchone():
+    if test_result.fetchone() == None:
         print "THIS ITEM DOESNT EXIST"
         return False
     else:
@@ -147,7 +155,7 @@ def edit_due_date(item_id, new_due_date):
     c = db.cursor()
     test = 'SELECT * FROM items WHERE item_id = ?'
     test_result = c.execute(test, item_id)
-    if not test_result.fetchone():
+    if test_result.fetchone() == None:
         print "THIS ITEM DOESNT EXIST"
         return False
     else:
@@ -157,4 +165,32 @@ def edit_due_date(item_id, new_due_date):
         db.close()
         return True
     
+
+
+#index 0: item_id
+#index 1: price
+#index 2: name
+#index 3: description
+#index 4: due date
+
+
+def get_item_info(item_id):
+    db = sqlite3.connect(DB)
+    c = db.cursor()
+    ret = []
+    test = 'SELECT * FROM items WHERE item_id = ?'
+    result = c.execute(test, (item_id,))
+#    print "printing result..."
+    query_result = result.fetchone()
+#    print query_result
+#    print "does it == None?"
+#    print query_result == None
+    if query_result != None:
+        for i in query_result:
+            ret.append(i)
+    return ret
+
+
+print get_item_info(1)        
+print get_item_info(2)        
 
