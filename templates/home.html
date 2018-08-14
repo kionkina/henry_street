@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<body>
+
+These Items Are Listed for Donation:
+
+<table border="1px">
+<tr>
+<td> Name </td> <td> Description </td> <td> Price </td> <td> Due Date </td>
+</tr>
+
+{% for item in items %}
+<tr> 
+
+<!-- Name -->
+<td> {{item[2]}} </td>
+<!-- Description -->
+<td> {{item[3]}} </td> 
+<!-- Price -->
+<td> {{item[1]}} </td>
+<!-- Due -->
+<td> {{item[4]}}</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</body>
+</html>

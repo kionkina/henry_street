@@ -13,8 +13,7 @@ app.secret_key = 'some_secret'
 def root():
     if "username" in session:
         if session["account"] == "donor":
-            items = db_stuff.get_all_item_info()
-            return render_template("home.html", items = items)
+            return render_template("home.html")
         if session["account"] == "admin":
             return render_templaet("admin_home.html")
     else:
@@ -48,8 +47,7 @@ def auth():
         session["account"] = "donor"
         print "Success!"
         #flash("You're logged in!")
-        items = db_stuff.get_all_item_info()
-        return render_template("home.html", items = items)
+        return render_template("home.html")
     else:
         #flash("Login failed. Please try again.")
         return render_template("login.html")

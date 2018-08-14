@@ -188,6 +188,27 @@ def get_item_info(item_id):
     if query_result != None:
         for i in query_result:
             ret.append(i)
+    db.commit()
+    db.close()
+    return ret
+
+def get_all_item_info():
+    db = sqlite3.connect(DB)
+    c = db.cursor()
+    ret = []
+    total_q = "SELECT max(item_id) FROM items"
+    total = c.execute(total_q)
+#    print "total.fetchone()[0]"
+#    print total.fetchone()[0]
+    total = total.fetchone()[0]
+    for i in range(1, total+1):
+        print "i: "
+        print i
+        ret.append(get_item_info(i))
+    db.commit()
+    db.close()
+    print "printing ret"
+    print ret
     return ret
 
 
