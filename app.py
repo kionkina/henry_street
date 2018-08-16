@@ -25,7 +25,8 @@ def root():
 @app.route('/admin')
 def admin():
     if "username" in session and session["account"] == "admin":
-        return render_remplate("admin_home.html")
+        my_items = db_stuff.my_item_info(db_stuff.my_items(session["username"]))
+        return render_template("admin_home.html", my_items = my_items)
     else:
         return render_template("admin_login.html")
 
@@ -34,7 +35,9 @@ def admin():
 @app.route('/admin_auth', methods=["GET","POST"])
 def admin_auth():
     if "username" in session and session["account"] == "admin":
-        return render_template("admin_home.html")
+        my_items = db_stuff.my_item_info(db_stuff.my_items(session["username"]))
+        return render_template("admin_home.html", my_items = my_items)
+
     try: 
         username = request.form["username"]
         print username
@@ -48,7 +51,9 @@ def admin_auth():
         session["username"] = username
         session["account"] = "admin"
         print "Success!"
-        return render_template("admin_home.html")
+        
+        my_items = db_stuff.my_item_info(db_stuff.my_items(username))
+        return render_template("admin_home.html", my_items = my_items)
     
     else:
         return render_template("admin_login.html")

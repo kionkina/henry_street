@@ -28,8 +28,8 @@ def auth(username, password):
     else:
         return False
 
-print auth('kionkina', 'karina')
-print auth('kionkina', 'karin')
+#print auth('kionkina', 'karina')
+#print auth('kionkina', 'karin')
 
 
 def admin_auth(username, password):
@@ -104,13 +104,29 @@ print list_of_transactions('kionkina')
 
 #------------------------ ADMIN FXNS -------------------------------------------------------
 
+def get_admin_id(username):
+    db = sqlite3.connect(DB)
+    c = db.cursor()
+#    print username
+    query = 'SELECT user_id from admins WHERE username = ?'
+    result = c.execute(query, (username,))
+    if result:
+#        print "result"
+        print result
+        for tuple in result:
+            return tuple[0]
+    else:
+        print "no such username"
+        return
+
+
 #Have not tested these yet, but should work...
 
 def add_item(price, name, description, due_date):
     db = sqlite3.connect(DB)
     c = db.cursor()
     q = 'SELECT * FROM items WHERE name = ?'
-    c.execute(q,name)
+    c.execute(q, (name,))
     if check.fetchone() == None:
         c.execute('INSERT INTO items(price, name, description, due_date) VALUES (?,?,?,?)', (price, name, description, due_date))
         print "success!"
@@ -120,6 +136,8 @@ def add_item(price, name, description, due_date):
     else:
         print "item (name) exists"
         return False
+
+
 
 def edit_price(item_id, new_price):
     db = sqlite3.connect(DB)
@@ -228,6 +246,40 @@ def get_all_item_info():
     return ret
 
 
-print get_item_info(1)        
-print get_item_info(2)        
+#print get_item_info(1)        
+#print get_item_info(2)        
 
+
+#this works
+def my_items(username):
+    print "RUNNING MY_ITEMS"
+    id = get_admin_id(username)
+#    print "the id is: "
+#    print id
+    db = sqlite3.connect(DB)
+    c = db.cursor()
+    q = 'SELECT item_id FROM items WHERE admin_id = ?'
+    result = c.execute(q, (id,))
+    result = result.fetchall()
+    ret = []
+    for i in result:
+        ret.append(i[0])
+        print "RETURNING"
+        print ret
+    return ret
+
+def my_item_info(items):
+    print "RUNNING MY_ITEM_INFO"
+    ret = []
+    for i in items:
+        ret.append(get_item_info(i))
+    print "RETURNING"
+    print ret
+    return ret
+
+#print my_item_info(my_items("admin"))
+
+#print "admin"
+#print my_items("admin")
+#print "boop"
+#print my_items("boop")
