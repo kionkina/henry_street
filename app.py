@@ -22,6 +22,40 @@ def root():
 
 #    return "Hello World"
 
+@app.route('/admin')
+def admin():
+    if "username" in session and session["account"] == "admin":
+        return render_remplate("admin_home.html")
+    else:
+        return render_template("admin_login.html")
+
+
+
+@app.route('/admin_auth', methods=["GET","POST"])
+def admin_auth():
+    if "username" in session and session["account"] == "admin":
+        return render_template("admin_home.html")
+    try: 
+        username = request.form["username"]
+        print username
+        password = request.form["password"]
+        print password
+        
+    except KeyError:
+        return render_template("admin_login.html", error="please fill everything in")
+    
+    if db_stuff.admin_auth(username, password):
+        session["username"] = username
+        session["account"] = "admin"
+        print "Success!"
+        return render_template("admin_home.html")
+    
+    else:
+        return render_template("admin_login.html")
+
+
+
+
 @app.route('/auth', methods=["GET", "POST"])
 def auth():
     print "running auth"
@@ -84,6 +118,22 @@ def signup():
 @app.route('/home')
 def home():
     return render_template('home.html', item=[{'price':'$2.50', 'name':'emacs', 'id':7,'desc':'its worth that little'}, {'price':'$5.00', 'name':'atom', 'id':8,'desc':'its worth way more'}])
+
+
+@app.route('/admin_home')
+def admin_home():
+    if "username" in session and session["account"] == "admin":
+        render_template("admin_home.html")
+    else:
+        render_template("admin_login.html")
+
+@app.route('/logout')
+def logout():
+    if "username" in session:
+        session.pop("username")
+        session.pop("account")
+    return redirect(url_for('root'))
+
 
 app.secret_key = os.urandom(32)
 if __name__ == '__main__':

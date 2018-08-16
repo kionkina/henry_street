@@ -30,6 +30,22 @@ def auth(username, password):
 
 print auth('kionkina', 'karina')
 print auth('kionkina', 'karin')
+
+
+def admin_auth(username, password):
+#    print "running db auth"
+    db = sqlite3.connect(DB)
+    c = db.cursor()
+    pwd = hashlib.sha256(password).hexdigest()
+    query = 'SELECT password FROM admins WHERE username = ? AND password = ?'
+    result = c.execute(query, (username, pwd))
+    ret = result.fetchone()
+#    print ret
+    db.close()
+    if ret != None:
+        return True
+    else:
+        return False
                        
 def add_donor(fname, lname,username, password, email):
     print "running add_donor..."
