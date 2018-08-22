@@ -104,9 +104,28 @@ print list_of_transactions('kionkina')
 
 #------------------------ ADMIN FXNS -------------------------------------------------------
 
-#[name, price,SD, img]
-def add_item(price, name, description, due_date, username):
-    return due_date
+
+def add_the_item(name, price, SD, img, date, url, username):
+    print "RUNNING ADD_ITEM"
+    
+    admin_id = get_admin_id(username)
+    print "ADMIN ID IS:"
+    print admin_id
+    
+    db = sqlite3.connect(DB)
+    c = db.cursor()
+    q = 'SELECT (EXISTS (SELECT 1 FROM items WHERE name = ?))'
+    check = c.execute(q, (name,)).fetchone()[0]
+    if check == 0:
+        c.execute('INSERT INTO items(price, name, description, img, due_date, url, admin_id) VALUES (?,?,?,?,?,?,?)', (price, name, SD, img, date,url,admin_id))
+        print "success!"
+        db.commit()
+        db.close()
+        return True
+    else:
+#        print "item (name) exists"
+        return False
+    
 
 
 
@@ -118,8 +137,6 @@ def get_admin_id(username):
     query = 'SELECT user_id from admins WHERE username = ?'
     result = c.execute(query, (username,))
     if result:
-#        print "result"
-        print result
         for tuple in result:
             return tuple[0]
     else:

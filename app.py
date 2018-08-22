@@ -144,22 +144,34 @@ def logout():
 @app.route('/add_item', methods=["GET", "POST"])
 def add_item():
     if "username" in session and session["account"] == "admin":
+        #collecting form data...
         try:
             url = request.form["url"]
+            print "url"
+            print url
             date = request.form["date1"]
-            info = api.api_info(api.getID(url))
-            info.append(date)
+            print "date"
+            print date
             description = request.form["other_description"]
-            if description == "":
-                description = info[2].replace("&quot;", "'")
-            # [name, price, SD, img]
+            print description
+        except:
+            print "EXCEPT..."
+            return redirect(url_for('admin_home'))
+        #getting api info...
+        info = api.api_info(api.getID(url))
+        info.append(date)
+        if description == "":
+            description = info[2].replace("&quot;", "'")
             info[2] = description
-            # [name, price, SD, img, date]
-            
-#            return db_stuff.add_item(info[1], info[0], info[2], date, img, session["username"]) 
+        #adding to database...
+        if db_stuff.add_the_item(info[0], info[1], info[2], info[3], info[4], url, session["username"]):
             return render_template("item_conf.html", info = info)
-        except KeyError:
-            return render_template("admin_login.html", error="please fill everything in")
+        else:
+            print "item exists"
+            return redirect(url_for('admin_home'))
+    #username not in session
+    else:
+        return redirect(url_for('admin_home'))
 
 
 
