@@ -104,6 +104,13 @@ print list_of_transactions('kionkina')
 
 #------------------------ ADMIN FXNS -------------------------------------------------------
 
+#[name, price,SD, img]
+def add_item(price, name, description, due_date, username):
+    return due_date
+
+
+
+
 def get_admin_id(username):
     db = sqlite3.connect(DB)
     c = db.cursor()

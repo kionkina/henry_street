@@ -4,7 +4,7 @@ from os import path
 import sqlite3
 import hashlib
 import db_stuff
-
+import api
 
 app = Flask(__name__)
 app.secret_key = 'some_secret'
@@ -128,9 +128,10 @@ def home():
 @app.route('/admin_home')
 def admin_home():
     if "username" in session and session["account"] == "admin":
-        render_template("admin_home.html")
+        my_items = db_stuff.my_item_info(db_stuff.my_items(session["username"]))
+        return render_template("admin_home.html", my_items = my_items)
     else:
-        render_template("admin_login.html")
+        return render_template("admin_login.html")
 
 @app.route('/logout')
 def logout():
@@ -138,6 +139,29 @@ def logout():
         session.pop("username")
         session.pop("account")
     return redirect(url_for('root'))
+
+
+@app.route('/add_item', methods=["GET", "POST"])
+def add_item():
+    if "username" in session and session["account"] == "admin":
+        try:
+            url = request.form["url"]
+            date = request.form["date1"]
+            info = api.api_info(api.getID(url))
+            info.append(date)
+            description = request.form["other_description"]
+            if description == "":
+                description = info[2].replace("&quot;", "'")
+            # [name, price, SD, img]
+            info[2] = description
+            # [name, price, SD, img, date]
+            
+#            return db_stuff.add_item(info[1], info[0], info[2], date, img, session["username"]) 
+            return render_template("item_conf.html", info = info)
+        except KeyError:
+            return render_template("admin_login.html", error="please fill everything in")
+
+
 
 
 app.secret_key = os.urandom(32)
