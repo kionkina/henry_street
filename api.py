@@ -6,15 +6,40 @@ api_key = "yn6rumz2jddsrjrju6esfppz"
 
 def getID(url):
     ret = ""
-    for i in reversed(url):
-        print i
-        if (i.isdigit()):
-            ret = i + ret
-        else:
-            break
-    print "--------JUST RAN GETID. ID IS: "
-    print ret + "-------------"
-    return ret
+    '''
+    if the id is not at the end of the link,
+    we search for athcpid in the link 
+    and extract it from there
+    '''
+
+    if url.endswith("true"):
+        index = url.find("athcpid=")
+        print "index"
+        print index
+        add = len("athcpid=") 
+
+        new_index = index + add
+        print new_index
+        url = url[new_index:]
+        print url
+        for i in url:
+             if i.isdigit():
+                ret += i
+             else:
+                 break
+        print "--------JUST RAN GETID. ID IS: "
+        print ret + "-------------"
+        return ret
+    else:
+        for i in reversed(url):
+            print i
+            if (i.isdigit()):
+                ret = i + ret
+            else:
+                break
+            print "--------JUST RAN GETID. ID IS: "
+            print ret + "-------------"
+            return ret
 
 ''' it works
 print "running getID..."

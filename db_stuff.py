@@ -233,16 +233,19 @@ def edit_due_date(item_id, new_due_date):
 
 
 def get_item_info(item_id):
+    '''
+    Returns an array containing all aspects of 
+    item info
+
+    [item_id, price, name, description, img, due_date, url, admin_id]
+    
+    '''
     db = sqlite3.connect(DB)
     c = db.cursor()
     ret = []
     test = 'SELECT * FROM items WHERE item_id = ?'
     result = c.execute(test, (item_id,))
-#    print "printing result..."
     query_result = result.fetchone()
-#    print query_result
-#    print "does it == None?"
-#    print query_result == None
     if query_result != None:
         for i in query_result:
             ret.append(i)
@@ -251,13 +254,15 @@ def get_item_info(item_id):
     return ret
 
 def get_all_item_info():
+    '''
+    Returns array with info arrays for each
+    available item
+    '''
     db = sqlite3.connect(DB)
     c = db.cursor()
     ret = []
     total_q = "SELECT max(item_id) FROM items"
     total = c.execute(total_q)
-#    print "total.fetchone()[0]"
-#    print total.fetchone()[0]
     total = total.fetchone()[0]
     for i in range(1, total+1):
         print "i: "
@@ -265,21 +270,16 @@ def get_all_item_info():
         ret.append(get_item_info(i))
     db.commit()
     db.close()
-#    print "printing ret"
-#    print ret
     return ret
 
 
-#print get_item_info(1)        
-#print get_item_info(2)        
-
-
-#this works
 def my_items(username):
+    '''
+    Takes admin username and returns list of item_ids 
+    of items added by the user
+    '''
     print "RUNNING MY_ITEMS"
     id = get_admin_id(username)
-#    print "the id is: "
-#    print id
     db = sqlite3.connect(DB)
     c = db.cursor()
     q = 'SELECT item_id FROM items WHERE admin_id = ?'
@@ -288,17 +288,22 @@ def my_items(username):
     ret = []
     for i in result:
         ret.append(i[0])
-#        print "RETURNING"
-#        print ret
+    print "RESULT IS"
+    print ret
     return ret
 
+
 def my_item_info(items):
+    '''
+    Uses list of item_ids to return list with
+    item info for each id
+    '''
     print "RUNNING MY_ITEM_INFO"
     ret = []
     for i in items:
         ret.append(get_item_info(i))
-#    print "RETURNING"
-#    print ret
+    print "RETURNING"
+    print ret
     return ret
 
 #print my_item_info(my_items("admin"))
