@@ -12,7 +12,7 @@ def getID(url):
     and extract it from there
     '''
 
-    if url.endswith("true"):
+    if !(url[-1].isdigit()):
         index = url.find("athcpid=")
         print "index"
         print index
