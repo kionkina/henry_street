@@ -265,8 +265,8 @@ def get_all_item_info():
         ret.append(get_item_info(i))
     db.commit()
     db.close()
-    print "printing ret"
-    print ret
+#    print "printing ret"
+#    print ret
     return ret
 
 
@@ -288,8 +288,8 @@ def my_items(username):
     ret = []
     for i in result:
         ret.append(i[0])
-        print "RETURNING"
-        print ret
+#        print "RETURNING"
+#        print ret
     return ret
 
 def my_item_info(items):
@@ -297,8 +297,8 @@ def my_item_info(items):
     ret = []
     for i in items:
         ret.append(get_item_info(i))
-    print "RETURNING"
-    print ret
+#    print "RETURNING"
+#    print ret
     return ret
 
 #print my_item_info(my_items("admin"))

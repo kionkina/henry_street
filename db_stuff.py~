@@ -28,8 +28,24 @@ def auth(username, password):
     else:
         return False
 
-print auth('kionkina', 'karina')
-print auth('kionkina', 'karin')
+#print auth('kionkina', 'karina')
+#print auth('kionkina', 'karin')
+
+
+def admin_auth(username, password):
+#    print "running db auth"
+    db = sqlite3.connect(DB)
+    c = db.cursor()
+    pwd = hashlib.sha256(password).hexdigest()
+    query = 'SELECT password FROM admins WHERE username = ? AND password = ?'
+    result = c.execute(query, (username, pwd))
+    ret = result.fetchone()
+#    print ret
+    db.close()
+    if ret != None:
+        return True
+    else:
+        return False
                        
 def add_donor(fname, lname,username, password, email):
     print "running add_donor..."
@@ -88,13 +104,53 @@ print list_of_transactions('kionkina')
 
 #------------------------ ADMIN FXNS -------------------------------------------------------
 
+
+def add_the_item(name, price, SD, img, date, url, username):
+    print "RUNNING ADD_ITEM"
+    
+    admin_id = get_admin_id(username)
+    print "ADMIN ID IS:"
+    print admin_id
+    
+    db = sqlite3.connect(DB)
+    c = db.cursor()
+    q = 'SELECT (EXISTS (SELECT 1 FROM items WHERE name = ?))'
+    check = c.execute(q, (name,)).fetchone()[0]
+    if check == 0:
+        c.execute('INSERT INTO items(price, name, description, img, due_date, url, admin_id) VALUES (?,?,?,?,?,?,?)', (price, name, SD, img, date,url,admin_id))
+        print "success!"
+        db.commit()
+        db.close()
+        return True
+    else:
+#        print "item (name) exists"
+        return False
+    
+
+
+
+
+def get_admin_id(username):
+    db = sqlite3.connect(DB)
+    c = db.cursor()
+#    print username
+    query = 'SELECT user_id from admins WHERE username = ?'
+    result = c.execute(query, (username,))
+    if result:
+        for tuple in result:
+            return tuple[0]
+    else:
+        print "no such username"
+        return
+
+
 #Have not tested these yet, but should work...
 
 def add_item(price, name, description, due_date):
     db = sqlite3.connect(DB)
     c = db.cursor()
     q = 'SELECT * FROM items WHERE name = ?'
-    c.execute(q,name)
+    c.execute(q, (name,))
     if check.fetchone() == None:
         c.execute('INSERT INTO items(price, name, description, due_date) VALUES (?,?,?,?)', (price, name, description, due_date))
         print "success!"
@@ -104,6 +160,8 @@ def add_item(price, name, description, due_date):
     else:
         print "item (name) exists"
         return False
+
+
 
 def edit_price(item_id, new_price):
     db = sqlite3.connect(DB)
@@ -188,9 +246,64 @@ def get_item_info(item_id):
     if query_result != None:
         for i in query_result:
             ret.append(i)
+    db.commit()
+    db.close()
+    return ret
+
+def get_all_item_info():
+    db = sqlite3.connect(DB)
+    c = db.cursor()
+    ret = []
+    total_q = "SELECT max(item_id) FROM items"
+    total = c.execute(total_q)
+#    print "total.fetchone()[0]"
+#    print total.fetchone()[0]
+    total = total.fetchone()[0]
+    for i in range(1, total+1):
+        print "i: "
+        print i
+        ret.append(get_item_info(i))
+    db.commit()
+    db.close()
+    print "printing ret"
+    print ret
     return ret
 
 
-print get_item_info(1)        
-print get_item_info(2)        
+#print get_item_info(1)        
+#print get_item_info(2)        
 
+
+#this works
+def my_items(username):
+    print "RUNNING MY_ITEMS"
+    id = get_admin_id(username)
+#    print "the id is: "
+#    print id
+    db = sqlite3.connect(DB)
+    c = db.cursor()
+    q = 'SELECT item_id FROM items WHERE admin_id = ?'
+    result = c.execute(q, (id,))
+    result = result.fetchall()
+    ret = []
+    for i in result:
+        ret.append(i[0])
+        print "RETURNING"
+        print ret
+    return ret
+
+def my_item_info(items):
+    print "RUNNING MY_ITEM_INFO"
+    ret = []
+    for i in items:
+        ret.append(get_item_info(i))
+    print "RETURNING"
+    print ret
+    return ret
+
+#print my_item_info(my_items("admin"))
+
+#print "admin"
+#print my_items("admin")
+#print "boop"
+#print my_items("boop")

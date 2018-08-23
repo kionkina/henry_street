@@ -162,6 +162,7 @@ def add_item():
         info.append(date)
         if description == "":
             description = info[2].replace("&quot;", "'")
+            description = info[2].replace("&amp;", "&")
             info[2] = description
         #adding to database...
         if db_stuff.add_the_item(info[0], info[1], info[2], info[3], info[4], url, session["username"]):
