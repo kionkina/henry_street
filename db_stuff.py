@@ -2,7 +2,7 @@ import sqlite3
 import hashlib
 
 #---------------NOTES------------------------------------
-# use this query to reset autoincrement after 
+# use this query to reset autoincrement after
 # manually deleting a row:
 
 # q = 'UPDATE sqlite_sequence SET seq = ? WHERE seq = ?'#
@@ -46,7 +46,7 @@ def admin_auth(username, password):
         return True
     else:
         return False
-                       
+
 def add_donor(fname, lname,username, password, email):
     print "running add_donor..."
     db = sqlite3.connect(DB)
@@ -54,7 +54,7 @@ def add_donor(fname, lname,username, password, email):
     query = 'SELECT * FROM donors WHERE username = ?'
     check = c.execute(query, (username,))
     if check.fetchone() == None:
-        c.execute(q, (1, 6))
+        c.execute(query, (username,))
         new_pass = hashlib.sha256(password).hexdigest()
         c.execute('INSERT INTO donors(fname, lname, username, password, email) VALUES (?,?,?,?,?)', (fname, lname, username, new_pass, email))
         db.commit()
@@ -71,7 +71,7 @@ def get_user_id(username):
     db = sqlite3.connect(DB)
     c = db.cursor()
     print username
-    query = 'SELECT user_id from donors WHERE username = ?' 
+    query = 'SELECT user_id from donors WHERE username = ?'
     result = c.execute(query, (username,))
     if result:
         print "result"
@@ -80,38 +80,38 @@ def get_user_id(username):
             return tuple[0]
     else:
         print "no such username"
-        return 
+        return
 
 def list_of_transactions(username):
     db = sqlite3.connect(DB)
     c = db.cursor()
     user_id = get_user_id(username)
     print user_id
-    query = 'SELECT * FROM transactions WHERE user_id = ?' 
+    query = 'SELECT * FROM transactions WHERE user_id = ?'
     result = c.execute(query, (user_id,))
     ret = []
     for transaction in result:
         if transaction == None:
-            return 
+            return
         else:
             trans = []
             for i in transaction:
                 trans.append(i)
             ret.append(trans)
     return ret
-    
-print list_of_transactions('kionkina') 
+
+print list_of_transactions('kionkina')
 
 #------------------------ ADMIN FXNS -------------------------------------------------------
 
 
 def add_the_item(name, price, SD, img, date, url, username):
     print "RUNNING ADD_ITEM"
-    
+
     admin_id = get_admin_id(username)
     print "ADMIN ID IS:"
     print admin_id
-    
+
     db = sqlite3.connect(DB)
     c = db.cursor()
     q = 'SELECT (EXISTS (SELECT 1 FROM items WHERE name = ?))'
@@ -125,7 +125,7 @@ def add_the_item(name, price, SD, img, date, url, username):
     else:
 #        print "item (name) exists"
         return False
-    
+
 
 
 
@@ -222,7 +222,7 @@ def edit_due_date(item_id, new_due_date):
         db.commit()
         db.close()
         return True
-    
+
 
 
 #index 0: item_id
@@ -237,11 +237,11 @@ def edit_due_date(item_id, new_due_date):
 
 def get_item_info(item_id):
     '''
-    Returns an array containing all aspects of 
+    Returns an array containing all aspects of
     item info
 
     [item_id, price, name, description, img, due_date, url, admin_id]
-    
+
     '''
     db = sqlite3.connect(DB)
     c = db.cursor()
@@ -278,7 +278,7 @@ def get_all_item_info():
 
 def my_items(username):
     '''
-    Takes admin username and returns list of item_ids 
+    Takes admin username and returns list of item_ids
     of items added by the user
     '''
     print "RUNNING MY_ITEMS"
