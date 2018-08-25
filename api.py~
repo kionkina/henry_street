@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*- 
 import requests
 import json
-import HTMLParser
+
 api_key = "yn6rumz2jddsrjrju6esfppz"
 
 def getID(url):
@@ -64,11 +64,9 @@ def api_info(id):
 #    print response
     price = response['items'][0]["salePrice"]
     try:
-        SD = response['items'][0]["shortDescription"]
-        SD = HTMLParser.HTMLParser().unescape(SD)
+        SD = response['items'][0]["shortDescription"].replace("&quote;", '""')
     except:
-        SD = response['items'][0]['longDescription']
-        SD = HTMLParser.HTMLParser().unescape(SD)
+        SD = response['items'][0]['longDescription'].replace("&quote;", '""')
     name = response['items'][0]["name"]
     img = response['items'][0]["mediumImage"]
     ret = [name, price, SD, img]

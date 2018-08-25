@@ -7,21 +7,31 @@ my items:
 
 <table border="1px">
 <tr>
-<td> Name </td> <td> Description </td> <td> Price </td> <td> Due Date </td>
+
+<td> Name </td>
+<td> Price </td>
+<td> Description </td>
+<td> Img </td>
+<td> Due Date</td>
+<td> URL</td>
+
 </tr>
+
 
 {% for item in my_items %}
 <tr>
-
-<!-- Name -->
-<td> {{item[2]}} </td>
-<!-- Description -->
-<td> {{item[3]}} </td>
-<!-- Price -->
-<td> {{item[1]}} </td>
-<!-- Due -->
-<td> {{item[4]}}</td>
-
+<!-- name -->
+<td> {{item[2]}}  </td>
+<!-- price -->
+<td> {{item[1]}}  </td>
+<!-- description -->
+<td> {{item[3]|e}}  </td>
+<!-- img -->
+<td> <img src="{{item[4]}}"></img>  </td>
+<!-- due -->
+<td> {{item[5]}}  </td>
+<!-- url -->
+<td> <a href="{{item[6]}}"> Click Me  </a>  </td>
 </tr>
 
 {% endfor %}
