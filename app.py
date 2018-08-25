@@ -16,7 +16,7 @@ def root():
             items = db_stuff.get_all_item_info()
             return render_template("home.html", items = items)
         if session["account"] == "admin":
-            return render_templaet("admin_home.html")
+            return render_template("admin_home.html")
     else:
         return render_template("login.html")
 

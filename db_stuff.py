@@ -229,7 +229,10 @@ def edit_due_date(item_id, new_due_date):
 #index 1: price
 #index 2: name
 #index 3: description
-#index 4: due date
+#index 4: img
+#index 5: due_date
+#index 6: url
+#index 7: admin_id
 
 
 def get_item_info(item_id):
@@ -265,8 +268,8 @@ def get_all_item_info():
     total = c.execute(total_q)
     total = total.fetchone()[0]
     for i in range(1, total+1):
-        print "i: "
-        print i
+#        print "i: "
+#        print i
         ret.append(get_item_info(i))
     db.commit()
     db.close()

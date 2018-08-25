@@ -33,13 +33,15 @@ def getID(url):
     else:
         for i in reversed(url):
             print i
+            print "i.isdigit(): "
+            print i.isdigit()
             if (i.isdigit()):
                 ret = i + ret
             else:
                 break
-            print "--------JUST RAN GETID. ID IS: "
-            print ret + "-------------"
-            return ret
+        print "--------JUST RAN GETID. ID IS: "
+        print ret + "-------------"
+        return ret
 
 ''' it works
 print "running getID..."
@@ -57,11 +59,14 @@ def api_info(id):
     url = "http://api.walmartlabs.com/v1/items?apiKey=" + api_key +"&format=json&itemId="  +id
     print "THE URL IS"
     print url
-    response = requests.get(url)
-    response = json.loads(response.content.decode())
-    
+    req = requests.get(url)
+    response = json.loads(req.text.encode("utf-8"))
+#    print response
     price = response['items'][0]["salePrice"]
-    SD = response['items'][0]["shortDescription"].replace("&quote;", '""')
+    try:
+        SD = response['items'][0]["shortDescription"].replace("&quote;", '""')
+    except:
+        SD = response['items'][0]['longDescription'].replace("&quote;", '""')
     name = response['items'][0]["name"]
     img = response['items'][0]["mediumImage"]
     ret = [name, price, SD, img]
