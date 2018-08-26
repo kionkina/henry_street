@@ -16,8 +16,7 @@ def root():
             items = db_stuff.get_all_item_info()
             return render_template("home.html", items = items)
         if session["account"] == "admin":
-            my_items = db_stuff.my_item_info(db_stuff.my_items(session["username"]))
-            return render_template("admin_home.html", my_items = my_items)
+            return render_template("admin_home.html")
     else:
         return render_template("login.html")
 
@@ -166,7 +165,6 @@ def add_item():
             description = info[2].replace("&amp;", "&")
             info[2] = description
         #adding to database...
-        num_collected = db_stuff.num_collected(info[0])
         if db_stuff.add_the_item(info[0], info[1], info[2], info[3], info[4], url, session["username"]):
             return render_template("item_conf.html", info = info)
         else:

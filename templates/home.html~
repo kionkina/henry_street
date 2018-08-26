@@ -10,21 +10,22 @@ These Items Are Listed for Donation:
 </tr>
 
 {% for item in items %}
-<tr> 
-
-<!-- Name -->
-<td> {{item[2]}} </td>
-<!-- Description -->
-<td> {{item[3]}} </td> 
-<!-- Price -->
-<td> {{item[1]}} </td>
-<!-- Due -->
-<td> {{item[4]}}</td>
-
+<tr>
+<!-- name -->
+<td> {{item[2]}}  </td>
+<!-- price -->
+<td> {{item[1]}}  </td>
+<!-- description -->
+<td> {{item[3]}}  </td>
+<!-- img -->
+<td> <img src="{{item[4]}}"></img>  </td>
+<!-- due -->
+<td> {{item[5]}}  </td>
+<!-- url -->
+<td> <a href="{{item[6]}}"> Click Me  </a>  </td>
 </tr>
 
 {% endfor %}
-
 </table>
 
 

@@ -315,29 +315,3 @@ def my_item_info(items):
 #print my_items("admin")
 #print "boop"
 #print my_items("boop")
-
-def get_item_id(name):
-    db = sqlite3.connect(DB)
-    c = db.cursor()
-    query = 'SELECT item_id from items WHERE name = ?'
-    result = c.execute(query, (name,))
-    if result:
-        for tuple in result:
-            return tuple[0]
-    else:
-        print "no such username"
-        return
-
-def num_collected(name):
-    item_id = get_item_id(name)
-    db = sqlite3.connect(DB)
-    c = db.cursor()
-    query = 'SELECT count(*) FROM transactions WHERE item_id = ?'
-    result = c.execute(query, (item_id,))
-    result = c.execute(query, (name,))
-    if result:
-        for tuple in result:
-            return tuple[0]
-    else:
-        return 0
-
