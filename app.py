@@ -166,7 +166,6 @@ def add_item():
             description = info[2].replace("&amp;", "&")
             info[2] = description
         #adding to database...
-        num_collected = db_stuff.num_collected(info[0])
         if db_stuff.add_the_item(info[0], info[1], info[2], info[3], info[4], url, session["username"]):
             return render_template("item_conf.html", info = info)
         else:

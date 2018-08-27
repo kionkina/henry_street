@@ -105,7 +105,7 @@ print list_of_transactions('kionkina')
 #------------------------ ADMIN FXNS -------------------------------------------------------
 
 
-def add_the_item(name, price, SD, img, date, url, username):
+def add_the_item(name, price, SD, img, date, url, username, num_collected):
     print "RUNNING ADD_ITEM"
 
     admin_id = get_admin_id(username)
@@ -117,7 +117,7 @@ def add_the_item(name, price, SD, img, date, url, username):
     q = 'SELECT (EXISTS (SELECT 1 FROM items WHERE name = ?))'
     check = c.execute(q, (name,)).fetchone()[0]
     if check == 0:
-        c.execute('INSERT INTO items(price, name, description, img, due_date, url, admin_id) VALUES (?,?,?,?,?,?,?)', (price, name, SD, img, date,url,admin_id))
+        c.execute('INSERT INTO items(price, name, description, img, due_date, url, admin_id) VALUES (?,?,?,?,?,?,?,?)', (price, name, SD, img, date,url,admin_id, num_collected))
         print "success!"
         db.commit()
         db.close()
@@ -233,7 +233,7 @@ def edit_due_date(item_id, new_due_date):
 #index 5: due_date
 #index 6: url
 #index 7: admin_id
-
+#index 8: num_collected
 
 def get_item_info(item_id):
     '''
@@ -252,6 +252,7 @@ def get_item_info(item_id):
     if query_result != None:
         for i in query_result:
             ret.append(i)
+    ret.append(num_collected(item_id))
     db.commit()
     db.close()
     return ret
@@ -328,16 +329,33 @@ def get_item_id(name):
         print "no such username"
         return
 
+'''
 def num_collected(name):
+    print "running num_collected for " + name
     item_id = get_item_id(name)
     db = sqlite3.connect(DB)
     c = db.cursor()
     query = 'SELECT count(*) FROM transactions WHERE item_id = ?'
     result = c.execute(query, (item_id,))
-    result = c.execute(query, (name,))
     if result:
         for tuple in result:
+            print tuple[0]
             return tuple[0]
     else:
+        print "0"
         return 0
+'''
 
+def num_collected(item_id):
+    print "running num_collected for " 
+    db = sqlite3.connect(DB)
+    c = db.cursor()
+    query = 'SELECT count(*) FROM transactions WHERE item_id = ?'
+    result = c.execute(query, (item_id,))
+    if result:
+        for tuple in result:
+            print tuple[0]
+            return tuple[0]
+    else:
+        print "0"
+        return 0
