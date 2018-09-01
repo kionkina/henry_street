@@ -105,7 +105,7 @@ print list_of_transactions('kionkina')
 #------------------------ ADMIN FXNS -------------------------------------------------------
 
 
-def add_the_item(name, price, SD, img, date, url, username, num_collected):
+def add_the_item(name, price, SD, img, date, url, username):
     print "RUNNING ADD_ITEM"
 
     admin_id = get_admin_id(username)
@@ -117,7 +117,7 @@ def add_the_item(name, price, SD, img, date, url, username, num_collected):
     q = 'SELECT (EXISTS (SELECT 1 FROM items WHERE name = ?))'
     check = c.execute(q, (name,)).fetchone()[0]
     if check == 0:
-        c.execute('INSERT INTO items(price, name, description, img, due_date, url, admin_id) VALUES (?,?,?,?,?,?,?,?)', (price, name, SD, img, date,url,admin_id, num_collected))
+        c.execute('INSERT INTO items(price, name, description, img, due_date, url, admin_id) VALUES (?,?,?,?,?,?,?)', (price, name, SD, img, date,url,admin_id))
         print "success!"
         db.commit()
         db.close()
@@ -252,6 +252,7 @@ def get_item_info(item_id):
     if query_result != None:
         for i in query_result:
             ret.append(i)
+    # APPENDING THE NUM_COLLECTED:
     ret.append(num_collected(item_id))
     db.commit()
     db.close()

@@ -167,6 +167,7 @@ def add_item():
             info[2] = description
         #adding to database...
         if db_stuff.add_the_item(info[0], info[1], info[2], info[3], info[4], url, session["username"]):
+            info.append(0)
             return render_template("item_conf.html", info = info)
         else:
             print "item exists"
