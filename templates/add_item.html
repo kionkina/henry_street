@@ -1,3 +1,5 @@
+{% extends "header.html" %}
+{% block header %}
 <DOCTYPE! html>
 
 
@@ -9,7 +11,7 @@
 <form action="/add_item" method="POST">
 
 <br>
-URL: 
+URL:
 <input name="url" type="text">
 
 
@@ -27,3 +29,4 @@ Donate By: <input type="date" name="date1"> <br />
 </body>
 
 </html>
+{% endblock header %}

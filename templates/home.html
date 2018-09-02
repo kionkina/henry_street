@@ -1,12 +1,14 @@
+{% extends "header.html" %}
+{% block header %}
 <!DOCTYPE html>
 <body>
 
 
 <center>
 These Items Are Listed for Donation:
-<table border="1px">
+<table >
 <tr>
-<td> Name </td> <td> Description </td> <td> Price </td> <td> Due Date </td>
+<td> Name </td> <td> Price </td> <td> Description </td> <td> Image </td> <td> Due Date </td> <td>Link</td>
 </tr>
 
 {% for item in items %}
@@ -35,3 +37,4 @@ These Items Are Listed for Donation:
 
 </body>
 </html>
+{% endblock header %}
