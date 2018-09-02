@@ -1,0 +1,27 @@
+<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+
+* {
+  font-family: "Roboto Condensed",Helvetica,"Helvetica Neue",Arial,sans-serif
+}
+
+table, td {
+  border-collapse: collapse;
+  border: 1px solid black;
+}
+
+a, a:visited {
+  color: #b81f30;
+  text-decoration: none;
+}
+
+input[type=text], input[type=password] {
+  border: none;
+  border-bottom: 2px solid #b81f30;
+  width: 15%;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;
+}
+
+input[type=text]:focus, input[type=password]:focus {
+  width: 30%;
+}
