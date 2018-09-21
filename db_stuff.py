@@ -1,5 +1,6 @@
 import sqlite3
 import hashlib
+import datetime
 
 #---------------NOTES------------------------------------
 # use this query to reset autoincrement after
@@ -101,6 +102,19 @@ def list_of_transactions(username):
     return ret
 
 print list_of_transactions('kionkina')
+
+def add_transaction(id, username):
+	db = sqlite3.connect(DB)
+	c = db.cursor()
+	item_id=int(id)
+	user_id = get_user_id(username)
+	query = "INSERT INTO transactions VALUES ({0}, {1}, {2})"
+	date=str(datetime.datetime.utcnow()).split()[0]
+	print [user_id, item_id, date]
+	c.execute(query.format(user_id, item_id, date))
+	db.commit()
+	db.close()
+	return username
 
 #------------------------ ADMIN FXNS -------------------------------------------------------
 

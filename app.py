@@ -177,7 +177,11 @@ def add_item():
         return redirect(url_for('admin_home'))
 
 
-
+@app.route('/purchase', methods=["GET", "POST"])
+def purchase():
+	id = request.args.get('id')
+	db_stuff.add_transaction(id, session['username'])
+	return redirect('/home')
 
 app.secret_key = os.urandom(32)
 if __name__ == '__main__':

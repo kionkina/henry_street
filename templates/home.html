@@ -8,7 +8,8 @@
 These Items Are Listed for Donation:
 <table >
 <tr>
-<td> Name </td> <td> Price </td> <td> Description </td> <td> Image </td> <td> Due Date </td> <td>Link</td>
+<td> Name </td> <td> Price </td> <td> Description </td> <td> Image 
+</td> <td> Due Date </td> <td>Link</td> <td>Confirm purchase</td>
 </tr>
 
 {% for item in items %}
@@ -25,6 +26,8 @@ These Items Are Listed for Donation:
 <td> {{item[5]}}  </td>
 <!-- url -->
 <td> <a href="{{item[6]}}"> Click Me  </a>  </td>
+<!-- confirm purchase -->
+<td> <a href="/purchase?id={{item[0]}}">Confirm purchase</a> </td>
 </tr>
 
 {% endfor %}
