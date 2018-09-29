@@ -1,0 +1,26 @@
+* {
+    background-color: #b81f30;
+}
+
+img {
+    height: 200px;
+    width: 200px;
+}
+
+input[type=text], input[type=password] {
+    background-color: #C05E69;
+    width: 400px;
+    height: 40px;
+    border: 1px solid #DF8995;
+    padding-left: 40px;
+    background-repeat: no-repeat;
+    background-position: 10px 10px;
+    background-size: 20px;
+}
+input[type=text] {
+    background-image:url("/static/login.png");
+}
+
+input[type=password] {
+    background-image:url("/static/password.png");
+}

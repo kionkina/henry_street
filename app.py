@@ -183,6 +183,11 @@ def purchase():
 	db_stuff.add_transaction(id, session['username'])
 	return redirect('/home')
 
+@app.route("/login2")
+def login2():
+    return render_template("login2.html")
+
+    
 app.secret_key = os.urandom(32)
 if __name__ == '__main__':
     #app.secret_key = os.urandom(32)
