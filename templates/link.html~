@@ -1,9 +1,6 @@
 {% extends "header.html" %}
 
 {% block content %}
-<center>
-<br> <br>
-<h1>Sign In</h1>
 
 <form action="/add_item" method="POST">
 
@@ -17,9 +14,11 @@ URL:
 Donate By: <input type="date" name="date1"> <br />
 </input>
 
-<input type="submit">
-</input>
+If you wish to use your own description, type it here:
+<input type="text" name="other_description">
 
-</form>
+</input>
+Otherwise, the one from Walmart's product page will be used.
+
 
 {% endblock %}

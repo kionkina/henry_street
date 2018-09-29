@@ -1,9 +1,67 @@
 {% extends "header.html" %}
+
 {% block header %}
-<!DOCTYPE html>
 
-<body>
 
+<div class="header"
+style="background-color: #b81f30; padding-left: 50px">
+  <img src="https://www.henrystreet.org/wp-content/themes/henrystreet/images/logo.png"
+  height="125px" alt="Henry Street Logo">
+</div>
+<link rel="stylesheet" href="/static/header.css">
+
+<head>
+  <style type="text/css">
+button{
+  background:#b81f30;
+  color:#fff;
+  border:none;
+  position:relative;
+  height:60px;
+  font-size:1.6em;
+  padding:0 2em;
+  cursor:pointer;
+  transition:800ms ease all;
+  outline:none;
+}
+button:hover{
+  background:#fff;
+  color:#b81f30;
+}
+button:before,button:after{
+  content:'';
+  position:absolute;
+  top:0;
+  right:0;
+  height:2px;
+  width:0;
+  background: #b81f30;
+  transition:400ms ease all;
+}
+button:after{
+  right:inherit;
+  top:inherit;
+  left:0;
+  bottom:0;
+}
+button:hover:before,button:hover:after{
+  width:100%;
+transition:800ms ease all;
+
+
+</style>
+</head>
+{% endblock header %}
+
+{% block content %}
+<br>
+<br>
+<center>  
+<a href="/link_page"> <button type="button"> Add An Item</button> </a>
+ <br> <Br>
+  
+
+  
 <center>
 my items:
 
@@ -46,40 +104,7 @@ my items:
 
 </center>
 
-Add Item
-
-<form action="/add_item" method="POST">
-
-<br>
-URL:
-<input name="url" type="text">
-
-
-</input>
-<br><br>
-Donate By: <input type="date" name="date1"> <br />
-</input>
-
-If you wish to use your own description, type it here:
-<input type="text" name="other_description">
-
-</input>
-Otherwise, the one from Walmart's product page will be used.
-
-
-
-
-<input type="submit">
-</input>
-
-</form>
-
 <a href="/logout"> logout </a>
 
 
-</body>
-</html>
-
-
-
-{% endblock header %}
+{% endblock %}
