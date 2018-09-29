@@ -183,6 +183,15 @@ def purchase():
 	db_stuff.add_transaction(id, session['username'])
 	return redirect('/home')
 
+
+@app.route('/link_page', methods=["GET","POST"])
+def link_page():
+    if "username" in session and session["account"] == "admin":
+        return render_template("link.html")
+    else:
+        return render_template("login.html")
+        
+
 app.secret_key = os.urandom(32)
 if __name__ == '__main__':
     #app.secret_key = os.urandom(32)

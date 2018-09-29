@@ -1,8 +1,17 @@
+<!doctype html>
+<html>
+  {% block header %}
 <div class="header"
 style="background-color: #b81f30; padding-left: 50px">
   <img src="https://www.henrystreet.org/wp-content/themes/henrystreet/images/logo.png"
   height="125px" alt="Henry Street Logo">
 </div>
 <link rel="stylesheet" href="/static/header.css">
-{% block header %}
 {% endblock header %}
+  <body>
+
+    {% block content %}
+    {% endblock %}
+
+  </body>
+  </html>
