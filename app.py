@@ -19,7 +19,7 @@ def root():
             my_items = db_stuff.my_item_info(db_stuff.my_items(session["username"]))
             return render_template("admin_home.html", my_items = my_items)
     else:
-        return render_template("login.html")
+        return render_template("login2.html")
 
 #    return "Hello World"
 
@@ -81,7 +81,7 @@ def auth():
 
     except KeyError:
         #flash("please fill everything in")
-        return render_template("login.html", error="please fill everything in")
+        return render_template("login2.html", error="please fill everything in")
 
     if db_stuff.auth(username, password):
         session["username"] = username
@@ -92,7 +92,7 @@ def auth():
         return render_template("home.html", items = items)
     else:
         #flash("Login failed. Please try again.")
-        return render_template("login.html")
+        return render_template("login2.html")
 
 @app.route('/signup', methods=["GET", "POST"])
 def signup():
@@ -100,9 +100,9 @@ def signup():
         if session["account"] == "donor":
             return redirect(url_for("home"))
         else:
-            return render_template("login.html")
+            return render_template("login2.html")
     if request.method == "GET":
-        return render_template("login.html")
+        return render_template("login2.html")
     try:
         fname = request.form["fname"]
         lname = request.form["lname"]
@@ -118,7 +118,7 @@ def signup():
         return render_template("home.html")
     else:
 #        flash("failed to add donor")
-        return render_template("login.html")
+        return render_template("login2.html")
 
 
 @app.route('/home')
@@ -185,7 +185,7 @@ def purchase():
 
 
 @app.route("/login2")
-def login2():
+def login():
     return render_template("login2.html")
 
     
@@ -196,7 +196,7 @@ def link_page():
     if "username" in session and session["account"] == "admin":
         return render_template("link.html")
     else:
-        return render_template("login.html")
+        return render_template("login2.html")
         
 
 
